@@ -63,10 +63,13 @@ class Apple(GameObject):
         self.position = (randint(0, GRID_WIDTH - 1) * GRID_SIZE,
                          randint(0, GRID_HEIGHT - 1) * GRID_SIZE)
 
-    def randomize_position(self):
+    def randomize_position(self, positions):
         """Метод для обновления положения яблока"""
         self.position = (randint(0, GRID_WIDTH - 1) * GRID_SIZE,
                          randint(0, GRID_HEIGHT - 1) * GRID_SIZE)
+        while self.position in positions:
+            self.position = (randint(0, GRID_WIDTH - 1) * GRID_SIZE,
+                             randint(0, GRID_HEIGHT - 1) * GRID_SIZE)
 
     def draw(self):
         """Метод для отрисовки яблока"""
@@ -107,7 +110,8 @@ class Snake(GameObject):
         self.positions.insert(0, new_head)
 
         if apple.position in self.positions:
-            apple.randomize_position()
+            apple.randomize_position(self.positions)
+            self.length += 1
         else:
             self.positions.pop()
 
